@@ -287,6 +287,20 @@
             text-align: right;
             font-weight: 600;
         }
+
+        .pogo-search {
+            width: 70%; /* Or any desired fixed width, percentage, or max-width */
+            word-wrap: break-word; /* Ensures long words break if they exceed the container width */
+            overflow-wrap: break-word; /* Modern alternative to word-wrap */
+            white-space: normal; /* Ensures default wrapping behavior */
+            padding: 10px; /* Optional: Adds space around the text for better readability and selection */
+            border: 1px solid #ccc; /* Optional: Visual boundary for the div */
+            background: #ff6b35;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
         
         .loading {
             text-align: center;
@@ -776,10 +790,28 @@
                         <strong>Candidates:</strong> ${data.total_candidates} Pokemon GO available Pokemon checked
                     </div>
                 `;
+
+                const pogoSearchString1 = data.top_attackers.map(attacker => attacker.id).join(',');
+                const pogoSearchString2 = data.top_attackers.map(attacker => {
+                    if (attacker.form !== "normal") {
+                        return attacker.form
+                    }
+                    return attacker.id
+                }).join(',');
+                
+                const pogoSearchStringDiv = `
+                    <div class="pogo-search">
+                        <strong>Pokemon Go Filter:</strong><br>
+                        ${pogoSearchString1}&${pogoSearchString2}
+                    </div>
+                `;
                 
                 resultsDiv.innerHTML = `
                     <h3>Top 25 Attackers vs ${data.defender}</h3>
                     ${filterInfo}
+                    <br>
+                    ${pogoSearchStringDiv}
+                    <br>
                     <div class="top-list">${attackersList}</div>
                 `;
             } catch (error) {
@@ -855,10 +887,28 @@
                         • Max: ${getFilterLabel('Max', data.filters_applied.max_filter)}<br>
                     </div>
                 `;
+
+                const pogoSearchString1 = data.top_attackers.map(attacker => attacker.id).join(',');
+                const pogoSearchString2 = data.top_attackers.map(attacker => {
+                    if (attacker.form !== "normal") {
+                        return attacker.form
+                    }
+                    return attacker.id
+                }).join(',');
+                
+                const pogoSearchStringDiv = `
+                    <div class="pogo-search">
+                        <strong>Pokemon Go Filter:</strong><br>
+                        ${pogoSearchString1}&${pogoSearchString2}
+                    </div>
+                `;
                 
                 resultsDiv.innerHTML = `
                     <h3>Top 25 ${data.type} Type Attackers</h3>
                     ${filterInfo}
+                    <br>
+                    ${pogoSearchStringDiv}
+                    <br>
                     <div class="top-list">${attackersList}</div>
                 `;
             } catch (error) {
