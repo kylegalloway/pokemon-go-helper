@@ -797,6 +797,8 @@
                         return attacker.form
                     }
                     return attacker.id
+                }).filter((value, index, self) => {
+                    return self.indexOf(value) === index;
                 }).join(',');
                 
                 const pogoSearchStringDiv = `
@@ -894,6 +896,8 @@
                         return attacker.form
                     }
                     return attacker.id
+                }).filter((value, index, self) => {
+                    return self.indexOf(value) === index;
                 }).join(',');
                 
                 const pogoSearchStringDiv = `
