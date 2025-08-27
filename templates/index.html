@@ -595,8 +595,8 @@
                 defenderSelect.innerHTML = '<option value="">Choose a Pokemon</option>';
                 
                 pokemon.forEach(p => {
-                    const option1 = new Option(p.name, p.id);
-                    const option2 = new Option(p.name, p.id);
+                    const option1 = new Option(p.name, p.id+" - "+p.form);
+                    const option2 = new Option(p.name, p.id+" - "+p.form);
                     pokemonSelect.add(option1);
                     defenderSelect.add(option2);
                 });
@@ -633,8 +633,10 @@
             resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Loading Pokemon stats...</div>';
             resultsDiv.classList.add('show');
             
+            const pokemonId_val = pokemonId.split(" - ")[0].trim();
+            const pokemonId_form = pokemonId.split(" - ")[1].trim();
             try {
-                const response = await fetch(`/api/pokemon/${pokemonId}`);
+                const response = await fetch(`/api/pokemon/${pokemonId_val}/${pokemonId_form}`);
                 const data = await response.json();
                 
                 if (data.error) {
@@ -715,10 +717,12 @@
             resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Finding best attackers...</div>';
             resultsDiv.classList.add('show');
             
+            const defenderId_val = defenderId.split(" - ")[0].trim();
+            const defenderId_form = defenderId.split(" - ")[1].trim();
             try {
                 // Build query string
                 const queryParams = new URLSearchParams(filters).toString();
-                const response = await fetch(`/api/top-attackers/${defenderId}?${queryParams}`);
+                const response = await fetch(`/api/top-attackers/${defenderId_val}/${defenderId_form}?${queryParams}`);
                 const data = await response.json();
                 
                 if (data.error) {
@@ -731,8 +735,8 @@
                         `<span class="type-badge ${type}">${type}</span>`
                     ).join('');
                     
-                    const formNotes = attacker.form_notes.length > 0 ? 
-                        `<div style="font-size: 0.8em; color: #ff6b35; font-weight: bold;">${attacker.form_notes.join(', ')}</div>` : '';
+                    const formNotes = attacker.form !== "normal" ? 
+                        `<div style="font-size: 0.8em; color: #ff6b35; font-weight: bold;">${attacker.form}</div>` : '';
                     
                     const legendaryBadge = attacker.is_legendary ? 
                         `<span style="background: #ffd700; color: #333; padding: 2px 6px; border-radius: 10px; font-size: 0.7em; font-weight: bold;">★ LEGENDARY</span>` : '';
@@ -813,17 +817,11 @@
                         `<span class="type-badge ${type}">${type}</span>`
                     ).join('');
                     
-                    const formNotes = attacker.form_notes.length > 0 ? 
-                        `<div style="font-size: 0.8em; color: #ff6b35; font-weight: bold;">${attacker.form_notes.join(', ')}</div>` : '';
+                    const formNotes = attacker.form !== "normal" ? 
+                        `<div style="font-size: 0.8em; color: #ff6b35; font-weight: bold;">${attacker.form}</div>` : '';
                     
                     const legendaryBadge = attacker.is_legendary ? 
                         `<span style="background: #ffd700; color: #333; padding: 2px 6px; border-radius: 10px; font-size: 0.7em; font-weight: bold;">★ LEGENDARY</span>` : '';
-                    
-                    const availableForms = [];
-                    if (attacker.has_mega) availableForms.push('Mega');
-                    if (attacker.has_shadow) availableForms.push('Shadow');
-                    const formsInfo = availableForms.length > 0 ? 
-                        `<div style="font-size: 0.7em; color: #666;">Available: ${availableForms.join(', ')}</div>` : '';
                     
                     return `
                         <div class="attacker-card">
@@ -831,11 +829,9 @@
                                 <h4>#${index + 1} ${attacker.name} ${legendaryBadge}</h4>
                                 <div class="pokemon-types">${typeBadges}</div>
                                 ${formNotes}
-                                ${formsInfo}
                             </div>
                             <div class="attacker-stats">
                                 <div style="color: #ff6b35; font-size: 1.2em;">Attack: ${attacker.attack}</div>
-                                ${attacker.base_attack !== attacker.attack ? `<div style="font-size: 0.8em; color: #666;">Base: ${attacker.base_attack}</div>` : ''}
                             </div>
                         </div>
                     `;

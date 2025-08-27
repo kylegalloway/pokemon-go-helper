@@ -208,3 +208,6 @@ __marimo__/
 
 # SQLite
 *.db
+
+# OS X
+.DS_Store

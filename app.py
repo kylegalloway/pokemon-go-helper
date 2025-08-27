@@ -55,8 +55,9 @@ def init_database():
         cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS pokemon (
-                id INTEGER PRIMARY KEY,
+                id INTEGER NOT NULL,
                 name TEXT NOT NULL,
+                form TEXT NOT NULL, -- New column to store 'normal', 'mega', 'shadow', 'max', etc.
                 type1 TEXT NOT NULL,
                 type2 TEXT,
                 base_hp INTEGER NOT NULL,
@@ -70,16 +71,15 @@ def init_database():
                 pogo_stamina INTEGER NOT NULL,
                 is_in_go BOOLEAN NOT NULL DEFAULT 0,
                 is_legendary BOOLEAN NOT NULL DEFAULT 0,
-                has_mega BOOLEAN NOT NULL DEFAULT 0,
-                has_shadow BOOLEAN NOT NULL DEFAULT 0,
-                has_max BOOLEAN NOT NULL DEFAULT 0,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id, form) -- Composite primary key
+            );
         """
         )
 
         # Create index for faster lookups
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_pokemon_id ON pokemon(id)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_pokemon_name ON pokemon(name)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_pokemon_type1 ON pokemon(type1)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_pokemon_type2 ON pokemon(type2)")
@@ -88,12 +88,6 @@ def init_database():
         )
         cursor.execute(
             "CREATE INDEX IF NOT EXISTS idx_pokemon_legendary ON pokemon(is_legendary)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_pokemon_mega ON pokemon(has_mega)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_pokemon_shadow ON pokemon(has_shadow)"
         )
         cursor.execute(
             "CREATE INDEX IF NOT EXISTS idx_pokemon_pogo_attack ON pokemon(pogo_attack)"
@@ -215,60 +209,78 @@ def fetch_and_store_pokemon_data(pokemon_id):
     """Fetch Pokemon data from API and store in database"""
     try:
         print(f"DEBUG: Fetching Pokemon data for ID: {pokemon_id}")
-        pokemon = pb.pokemon(pokemon_id)
+                
+        # Get base form data
+        base_data = pb.pokemon(pokemon_id)
+        
+        # Determine all forms to process
+        forms_to_process = [
+            {'form_name': 'normal', 'is_mega': False, 'is_shadow': False, 'is_max': False}
+        ]
+        
+        if pokemon_id in MEGA_POKEMON:
+            forms_to_process.append({'form_name': 'mega', 'is_mega': True, 'is_shadow': False, 'is_max': False})
+        if pokemon_id in SHADOW_POKEMON:
+            forms_to_process.append({'form_name': 'shadow', 'is_mega': False, 'is_shadow': True, 'is_max': False})
+        if pokemon_id in DMAX_POKEMON or pokemon_id in GMAX_POKEMON:
+            forms_to_process.append({'form_name': 'max', 'is_mega': False, 'is_shadow': False, 'is_max': True})
 
-        # Get base stats
-        base_stats = {}
-        for stat in pokemon.stats:
-            stat_name = stat.stat.name
-            stat_value = stat.base_stat
-            base_stats[stat_name] = stat_value
+        # Update name for clarity
+        full_name = f"{base_data.name.title()}" if form_name == "normal" else f"{base_data.name.title()} ({form_name.title()})"
 
-        # Get types
-        types = [t.type.name for t in pokemon.types]
-        type1 = types[0] if len(types) > 0 else "normal"
-        type2 = types[1] if len(types) > 1 else None
+        for form_info in forms_to_process:
+            form_name = form_info['form_name']
+            
 
-        # Convert to Pokemon Go stats
-        pogo_stats = convert_to_pogo_stats(base_stats)
+            with get_db_connection() as conn:
+                cursor = conn.cursor()
+                # Check if this specific form already exists to avoid duplicates
+                cursor.execute("SELECT COUNT(*) FROM pokemon WHERE id = ? AND form = ?", (pokemon_id, form_name))
+                db_count = cursor.fetchone()[0]
+            if db_count > 0:
+                continue
 
-        # Store in database
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                """
-                INSERT OR REPLACE INTO pokemon (
-                    id, name, type1, type2, 
-                    base_hp, base_attack, base_defense, base_sp_attack, base_sp_defense, base_speed,
-                    pogo_attack, pogo_defense, pogo_stamina,
-                    is_in_go, is_legendary, has_mega, has_shadow, has_max,
-                    updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-            """,
-                (
-                    pokemon.id,
-                    pokemon.name.title(),
-                    type1,
-                    type2,
-                    base_stats["hp"],
-                    base_stats["attack"],
-                    base_stats["defense"],
-                    base_stats["special-attack"],
-                    base_stats["special-defense"],
-                    base_stats["speed"],
-                    pogo_stats["attack"],
-                    pogo_stats["defense"],
-                    pogo_stats["stamina"],
-                    is_pokemon_in_go(pokemon.id),
-                    is_legendary(pokemon.id),
-                    has_mega(pokemon.id),
-                    has_shadow(pokemon.id),
-                    has_max(pokemon.id),
-                ),
-            )
-            conn.commit()
+            # Calculate stats and apply bonuses for the specific form
+            base_stats = {s.stat.name: s.base_stat for s in base_data.stats}
+            pogo_stats = convert_to_pogo_stats(base_stats)
+            
+            # Apply form-specific bonuses
+            if form_name == 'mega':
+                pogo_stats['attack'] = math.ceil(pogo_stats['attack'] * 1.3)
+            elif form_name == 'shadow':
+                pogo_stats['attack'] = math.ceil(pogo_stats['attack'] * 1.2)
+            elif form_name == 'max':
+                pogo_stats['attack'] = math.ceil(pogo_stats['attack'] * 1.1)
 
-        print(f"DEBUG: Successfully stored {pokemon.name} in database")
+            # Insert into the database
+            with get_db_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    """
+                    INSERT OR REPLACE INTO pokemon (
+                        id, name, form, type1, type2, 
+                        base_hp, base_attack, base_defense, base_sp_attack, base_sp_defense, base_speed,
+                        pogo_attack, pogo_defense, pogo_stamina,
+                        is_in_go, is_legendary,
+                        updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                """,
+                    (
+                        base_data.id,
+                        full_name,
+                        form_name,
+                        base_data.types[0].type.name if len(base_data.types) > 0 else 'normal',
+                        base_data.types[1].type.name if len(base_data.types) > 1 else None,
+                        base_stats["hp"], base_stats["attack"], base_stats["defense"],
+                        base_stats["special-attack"], base_stats["special-defense"], base_stats["speed"],
+                        pogo_stats["attack"], pogo_stats["defense"], pogo_stats["stamina"],
+                        is_pokemon_in_go(base_data.id),
+                        is_legendary(base_data.id),
+                    ),
+                )
+                conn.commit()
+
+        print(f"DEBUG: Successfully stored {full_name}) in database")
         return True
 
     except Exception as e:
@@ -276,11 +288,11 @@ def fetch_and_store_pokemon_data(pokemon_id):
         return False
 
 
-def get_pokemon_data_from_db(pokemon_id):
+def get_pokemon_data_from_db(pokemon_id, form):
     """Get Pokemon data from database"""
     with get_db_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM pokemon WHERE id = ?", (pokemon_id,))
+        cursor.execute("SELECT * FROM pokemon WHERE id = ? AND form = ?", (pokemon_id, form))
         row = cursor.fetchone()
 
         if row:
@@ -291,6 +303,7 @@ def get_pokemon_data_from_db(pokemon_id):
             return {
                 "name": row["name"],
                 "id": row["id"],
+                "form": row["form"],
                 "types": types,
                 "base_stats": {
                     "hp": row["base_hp"],
@@ -306,35 +319,33 @@ def get_pokemon_data_from_db(pokemon_id):
                     "stamina": row["pogo_stamina"],
                 },
                 "is_in_go": bool(row["is_in_go"]),
-                "is_legendary": bool(row["is_legendary"]),
-                "has_mega": bool(row["has_mega"]),
-                "has_shadow": bool(row["has_shadow"]),
-                "has_max": bool(row["has_max"]),
+                "is_legendary": bool(row["is_legendary"])
             }
         return None
 
 
-def get_pokemon_data(pokemon_id):
+def get_pokemon_data(pokemon_id, form):
     """Get Pokemon data - first try database, then API if not found"""
     # Try database first
-    data = get_pokemon_data_from_db(pokemon_id)
+    data = get_pokemon_data_from_db(pokemon_id, form)
     if data:
         return data
 
     # If not in database, fetch from API and store
     if fetch_and_store_pokemon_data(pokemon_id):
-        return get_pokemon_data_from_db(pokemon_id)
+        return get_pokemon_data_from_db(pokemon_id, form)
 
     return None
 
 
 def should_include_pokemon_db(row, filters):
-    """Check if Pokemon should be included based on tri-functional filters (using database row)"""
-    # Always filter out Pokemon not in GO
+    """
+    Checks if a database row (which is a specific Pokemon form)
+    should be included based on the filters.
+    """
     if not row["is_in_go"]:
         return False
 
-    # Apply tri-functional filters
     # Legendary filter
     legendary_filter = filters.get("legendary_filter", "all")
     if legendary_filter == "only" and not row["is_legendary"]:
@@ -342,25 +353,23 @@ def should_include_pokemon_db(row, filters):
     elif legendary_filter == "exclude" and row["is_legendary"]:
         return False
 
-    # Mega filter
+    # Form filters check the 'form' column, not flags
     mega_filter = filters.get("mega_filter", "all")
-    if mega_filter == "only" and not row["has_mega"]:
+    if mega_filter == "only" and row["form"] != "mega":
         return False
-    elif mega_filter == "exclude" and row["has_mega"]:
+    elif mega_filter == "exclude" and row["form"] == "mega":
         return False
 
-    # Shadow filter
     shadow_filter = filters.get("shadow_filter", "all")
-    if shadow_filter == "only" and not row["has_shadow"]:
+    if shadow_filter == "only" and row["form"] != "shadow":
         return False
-    elif shadow_filter == "exclude" and not row["has_shadow"]:
+    elif shadow_filter == "exclude" and row["form"] == "shadow":
         return False
 
-    # Max filter
     max_filter = filters.get("max_filter", "all")
-    if max_filter == "only" and not row["has_max"]:
+    if max_filter == "only" and row["form"] != "max":
         return False
-    elif max_filter == "exclude" and not row["has_max"]:
+    elif max_filter == "exclude" and row["form"] == "max":
         return False
 
     return True
@@ -455,11 +464,12 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/api/pokemon/<int:pokemon_id>")
-def get_pokemon_stats(pokemon_id):
+@app.route("/api/pokemon/<int:pokemon_id>/<form>")
+def get_pokemon_stats(pokemon_id, form):
     """Get Pokemon Go stats for a specific Pokemon"""
+    form = form.lower()
     try:
-        data = get_pokemon_data(pokemon_id)
+        data = get_pokemon_data(pokemon_id, form)
         if data:
             return jsonify(data)
         else:
@@ -469,10 +479,11 @@ def get_pokemon_stats(pokemon_id):
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 
-@app.route("/api/top-attackers/<int:defender_id>")
-def get_top_attackers(defender_id):
+@app.route("/api/top-attackers/<int:defender_id>/<form>")
+def get_top_attackers(defender_id, form):
     """Get top 25 attackers against a specific Pokemon using database"""
-    print(f"DEBUG: Finding top attackers against Pokemon ID: {defender_id}")
+    form = form.lower()
+    print(f"DEBUG: Finding top attackers against Pokemon ID: {defender_id}, Form: {form}")
 
     filters = {
         "legendary_filter": request.args.get("legendary_filter", "all"),
@@ -482,66 +493,39 @@ def get_top_attackers(defender_id):
     }
 
     try:
-        defender = get_pokemon_data(defender_id)
+        defender = get_pokemon_data(defender_id, form)
         if not defender:
             return jsonify({"error": "Defender Pokemon not found"}), 404
-
-        print(f"DEBUG: Defender is {defender['name']} with types: {defender['types']}")
-
+        
         attackers = []
-
-        # Get all Pokemon from database with filters
         with get_db_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM pokemon WHERE is_in_go = 1")
-
+            
             for row in cursor.fetchall():
                 if not should_include_pokemon_db(row, filters):
                     continue
-
-                # Calculate effectiveness
+                    
+                # No more multipliers needed, they are pre-calculated in the DB
+                pogo_attack = row["pogo_attack"]
                 attacker_types = [row["type1"]]
                 if row["type2"]:
                     attacker_types.append(row["type2"])
-
-                effectiveness = calculate_type_effectiveness(
-                    attacker_types, defender["types"]
-                )
-                base_attack = row["pogo_attack"]
-
-                # Apply multipliers based on filters and forms
-                attack_multiplier = 1.0
-                form_notes = []
-
-                if filters.get("mega_filter") == "only" and row["has_mega"]:
-                    attack_multiplier *= 1.3
-                    form_notes.append("Mega")
-
-                if filters.get("shadow_filter") == "only" and row["has_shadow"]:
-                    attack_multiplier *= 1.2
-                    form_notes.append("Shadow")
-
-                if filters.get("max_filter") == "only":
-                    attack_multiplier *= 1.1
-                    form_notes.append("Max")
-
-                effective_attack = base_attack * attack_multiplier * effectiveness
-
-                attackers.append(
-                    {
-                        "name": row["name"],
-                        "id": row["id"],
-                        "types": attacker_types,
-                        "attack": round(base_attack * attack_multiplier),
-                        "base_attack": base_attack,
-                        "effectiveness": round(effectiveness, 2),
-                        "effective_attack": round(effective_attack, 1),
-                        "form_notes": form_notes,
-                        "is_legendary": bool(row["is_legendary"]),
-                        "has_mega": bool(row["has_mega"]),
-                        "has_shadow": bool(row["has_shadow"]),
-                    }
-                )
+                    
+                effectiveness = calculate_type_effectiveness(attacker_types, defender["types"])
+                effective_attack = pogo_attack * effectiveness
+                
+                # ... append to attackers list ...
+                attackers.append({
+                    "name": row["name"],
+                    "id": row["id"],
+                    "form": row["form"],
+                    "types": attacker_types,
+                    "attack": pogo_attack,
+                    "effectiveness": round(effectiveness, 2),
+                    "effective_attack": round(effective_attack, 1),
+                    "is_legendary": bool(row["is_legendary"]),
+                })
 
         # Sort by effective attack and return top 25
         attackers.sort(key=lambda x: x["effective_attack"], reverse=True)
@@ -597,38 +581,15 @@ def get_top_attackers_by_type(type_name):
                 attacker_types = [row["type1"]]
                 if row["type2"]:
                     attacker_types.append(row["type2"])
-
-                base_attack = row["pogo_attack"]
-
-                # Apply multipliers based on filters and forms
-                attack_multiplier = 1.0
-                form_notes = []
-
-                if filters.get("mega_filter") == "only" and row["has_mega"]:
-                    attack_multiplier *= 1.3
-                    form_notes.append("Mega")
-
-                if filters.get("shadow_filter") == "only" and row["has_shadow"]:
-                    attack_multiplier *= 1.2
-                    form_notes.append("Shadow")
-
-                if filters.get("max_filter") == "only":
-                    attack_multiplier *= 1.1
-                    form_notes.append("Max")
-
-                attackers.append(
-                    {
-                        "name": row["name"],
-                        "id": row["id"],
-                        "types": attacker_types,
-                        "attack": round(base_attack * attack_multiplier),
-                        "base_attack": base_attack,
-                        "form_notes": form_notes,
-                        "is_legendary": bool(row["is_legendary"]),
-                        "has_mega": bool(row["has_mega"]),
-                        "has_shadow": bool(row["has_shadow"]),
-                    }
-                )
+                
+                attackers.append({
+                    "name": row["name"],
+                    "id": row["id"],
+                    "form": row["form"],
+                    "types": attacker_types,
+                    "attack": row["pogo_attack"],
+                    "is_legendary": bool(row["is_legendary"]),
+                })
 
         # Sort by attack and return top 25
         attackers.sort(key=lambda x: x["attack"], reverse=True)
@@ -655,23 +616,27 @@ def get_top_attackers_by_type(type_name):
 
 @app.route("/api/pokemon-list")
 def get_pokemon_list():
-    """Get list of Pokemon for dropdown"""
     try:
-        print("DEBUG: API call for Pokemon list")
-
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM pokemon WHERE is_in_go = 1")
+            # Fetch all Pokemon and their forms
+            cursor.execute("SELECT id, name, form FROM pokemon WHERE is_in_go = 1 ORDER BY id, form")
             all_pokemon = cursor.fetchall()
 
-            # For the dropdown, limit to first 151 for better UX (can be changed)
             dropdown_list = []
-            for pokemon in all_pokemon:  # First 151 for dropdown
-                # Get the actual Pokemon data to get the proper name
-                dropdown_list.append({"id": pokemon["id"], "name": pokemon["name"]})
-
-            print(f"DEBUG: Returning {len(dropdown_list)} Pokemon for dropdown")
-            return jsonify(dropdown_list)
+            for pokemon in all_pokemon:
+                dropdown_list.append({
+                    "id": pokemon["id"],
+                    "name": pokemon["name"],
+                    "form": pokemon["form"]
+                })
+            
+            # You might want to format the name for the dropdown, e.g., "Gengar (Shadow)"
+            formatted_list = [
+                {"id": f"{p['id']}", "name": f"{p['name']}", "form": f" {p['form']}"} for p in dropdown_list
+            ]
+            
+            return jsonify(formatted_list)
 
     except Exception as e:
         print(f"ERROR in get_pokemon_list: {e}")
