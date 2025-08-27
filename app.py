@@ -523,7 +523,7 @@ def get_top_attackers(defender_id):
 
                 if filters.get("max_filter") == "only":
                     attack_multiplier *= 1.1
-                    form_notes.append("Max Level")
+                    form_notes.append("Max")
 
                 effective_attack = base_attack * attack_multiplier * effectiveness
 
@@ -614,7 +614,7 @@ def get_top_attackers_by_type(type_name):
 
                 if filters.get("max_filter") == "only":
                     attack_multiplier *= 1.1
-                    form_notes.append("Max Level")
+                    form_notes.append("Max")
 
                 attackers.append(
                     {

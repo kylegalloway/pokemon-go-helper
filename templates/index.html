@@ -424,7 +424,7 @@
                         </div>
                         
                         <div class="filter-item">
-                            <h5>Max Level Pokemon</h5>
+                            <h5>Max Pokemon</h5>
                             <div class="radio-group">
                                 <div class="radio-option">
                                     <input type="radio" id="max-all-attackers" name="max-filter-attackers" value="all" checked>
@@ -432,17 +432,17 @@
                                 </div>
                                 <div class="radio-option">
                                     <input type="radio" id="max-only-attackers" name="max-filter-attackers" value="only">
-                                    <label for="max-only-attackers">Max Level Only</label>
+                                    <label for="max-only-attackers">Max Only</label>
                                 </div>
                                 <div class="radio-option">
                                     <input type="radio" id="max-exclude-attackers" name="max-filter-attackers" value="exclude">
-                                    <label for="max-exclude-attackers">Exclude Max Level</label>
+                                    <label for="max-exclude-attackers">Exclude Max</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-notes">
-                        <strong>Note:</strong> Only Pokemon available in Pokemon GO are included. Form bonuses: Mega (+30% ATK), Shadow (+20% ATK), Max Level (+10% ATK). 
+                        <strong>Note:</strong> Only Pokemon available in Pokemon GO are included. Form bonuses: Mega (+30% ATK), Shadow (+20% ATK), Max (+10% ATK). 
                         "Include All" shows all Pokemon regardless of the filter. "Only" shows only Pokemon with that characteristic. "Exclude" removes Pokemon with that characteristic.
                     </div>
                 </div>
@@ -519,7 +519,7 @@
                         </div>
                         
                         <div class="filter-item">
-                            <h5>Max Level Pokemon</h5>
+                            <h5>Max Pokemon</h5>
                             <div class="radio-group">
                                 <div class="radio-option">
                                     <input type="radio" id="max-all-type" name="max-filter-type" value="all" checked>
@@ -527,17 +527,17 @@
                                 </div>
                                 <div class="radio-option">
                                     <input type="radio" id="max-only-type" name="max-filter-type" value="only">
-                                    <label for="max-only-type">Max Level Only</label>
+                                    <label for="max-only-type">Max Only</label>
                                 </div>
                                 <div class="radio-option">
                                     <input type="radio" id="max-exclude-type" name="max-filter-type" value="exclude">
-                                    <label for="max-exclude-type">Exclude Max Level</label>
+                                    <label for="max-exclude-type">Exclude Max</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-notes">
-                        <strong>Note:</strong> Only Pokemon available in Pokemon GO are included. Form bonuses: Mega (+30% ATK), Shadow (+20% ATK), Max Level (+10% ATK).
+                        <strong>Note:</strong> Only Pokemon available in Pokemon GO are included. Form bonuses: Mega (+30% ATK), Shadow (+20% ATK), Max (+10% ATK).
                         "Include All" shows all Pokemon regardless of the filter. "Only" shows only Pokemon with that characteristic. "Exclude" removes Pokemon with that characteristic.
                     </div>
                 </div>
@@ -768,7 +768,7 @@
                         • Legendary: ${getFilterLabel('Legendary', data.filters_applied.legendary_filter)}<br>
                         • Mega: ${getFilterLabel('Mega', data.filters_applied.mega_filter)}<br>
                         • Shadow: ${getFilterLabel('Shadow', data.filters_applied.shadow_filter)}<br>
-                        • Max Level: ${getFilterLabel('Max Level', data.filters_applied.max_filter)}<br>
+                        • Max: ${getFilterLabel('Max', data.filters_applied.max_filter)}<br>
                         <strong>Candidates:</strong> ${data.total_candidates} Pokemon GO available Pokemon checked
                     </div>
                 `;
@@ -856,7 +856,7 @@
                         • Legendary: ${getFilterLabel('Legendary', data.filters_applied.legendary_filter)}<br>
                         • Mega: ${getFilterLabel('Mega', data.filters_applied.mega_filter)}<br>
                         • Shadow: ${getFilterLabel('Shadow', data.filters_applied.shadow_filter)}<br>
-                        • Max Level: ${getFilterLabel('Max Level', data.filters_applied.max_filter)}<br>
+                        • Max: ${getFilterLabel('Max', data.filters_applied.max_filter)}<br>
                     </div>
                 `;
                 
