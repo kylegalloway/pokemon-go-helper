@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,50 +11,50 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
-        
+
         .header {
             background: linear-gradient(45deg, #ff6b35, #f7931e);
             color: white;
             padding: 30px;
             text-align: center;
         }
-        
+
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
         }
-        
+
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
         }
-        
+
         .content {
             padding: 30px;
         }
-        
+
         .tabs {
             display: flex;
             margin-bottom: 30px;
             border-bottom: 2px solid #eee;
         }
-        
+
         .tab {
             flex: 1;
             padding: 15px 20px;
@@ -65,36 +66,36 @@
             color: #666;
             transition: all 0.3s ease;
         }
-        
+
         .tab.active {
             color: #ff6b35;
             border-bottom: 3px solid #ff6b35;
         }
-        
+
         .tab:hover {
             color: #ff6b35;
             background: rgba(255, 107, 53, 0.1);
         }
-        
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
         .form-group {
             margin-bottom: 25px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
             color: #333;
         }
-        
+
         .form-group select {
             width: 100%;
             padding: 12px 15px;
@@ -104,12 +105,12 @@
             background: white;
             transition: border-color 0.3s ease;
         }
-        
+
         .form-group select:focus {
             outline: none;
             border-color: #ff6b35;
         }
-        
+
         /* Tri-functional filter styles */
         .filter-section {
             background: #f8f9fa;
@@ -117,57 +118,57 @@
             border-radius: 10px;
             margin-bottom: 25px;
         }
-        
+
         .filter-section h4 {
             margin-bottom: 15px;
             color: #333;
             font-size: 1.1rem;
         }
-        
+
         .filter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 15px;
         }
-        
+
         .filter-item {
             background: white;
             padding: 15px;
             border-radius: 8px;
             border: 2px solid #e0e0e0;
         }
-        
+
         .filter-item h5 {
             margin-bottom: 10px;
             color: #333;
             font-size: 1rem;
         }
-        
+
         .radio-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
-        
+
         .radio-option {
             display: flex;
             align-items: center;
             cursor: pointer;
         }
-        
+
         .radio-option input[type="radio"] {
             margin-right: 8px;
             cursor: pointer;
         }
-        
+
         .radio-option label {
             cursor: pointer;
             font-weight: 400;
             margin-bottom: 0;
             font-size: 0.9rem;
         }
-        
+
         .form-notes {
             font-size: 0.85rem;
             color: #666;
@@ -176,7 +177,7 @@
             border-radius: 5px;
             margin-top: 10px;
         }
-        
+
         .btn {
             background: linear-gradient(45deg, #ff6b35, #f7931e);
             color: white;
@@ -188,11 +189,11 @@
             cursor: pointer;
             transition: transform 0.2s ease;
         }
-        
+
         .btn:hover {
             transform: translateY(-2px);
         }
-        
+
         .results {
             margin-top: 30px;
             padding: 25px;
@@ -200,33 +201,33 @@
             border-radius: 10px;
             display: none;
         }
-        
+
         .results.show {
             display: block;
         }
-        
+
         .pokemon-card {
             background: white;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .pokemon-name {
             font-size: 1.5rem;
             font-weight: bold;
             color: #333;
             margin-bottom: 15px;
         }
-        
+
         .pokemon-types {
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
-        
+
         .type-badge {
             padding: 5px 12px;
             border-radius: 20px;
@@ -235,79 +236,85 @@
             font-weight: 600;
             text-transform: uppercase;
         }
-        
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
-        
+
         .stat-item {
             text-align: center;
             padding: 15px;
             background: #f1f3f4;
             border-radius: 8px;
         }
-        
+
         .stat-value {
             font-size: 1.5rem;
             font-weight: bold;
             color: #ff6b35;
         }
-        
+
         .stat-label {
             font-size: 0.9rem;
             color: #666;
             margin-top: 5px;
         }
-        
+
         .top-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 15px;
         }
-        
+
         .attacker-card {
             background: white;
             border-radius: 8px;
             padding: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .attacker-info h4 {
             margin-bottom: 5px;
             color: #333;
         }
-        
+
         .attacker-stats {
             text-align: right;
             font-weight: 600;
         }
 
         .pogo-search {
-            width: 70%; /* Or any desired fixed width, percentage, or max-width */
-            word-wrap: break-word; /* Ensures long words break if they exceed the container width */
-            overflow-wrap: break-word; /* Modern alternative to word-wrap */
-            white-space: normal; /* Ensures default wrapping behavior */
-            padding: 10px; /* Optional: Adds space around the text for better readability and selection */
-            border: 1px solid #ccc; /* Optional: Visual boundary for the div */
+            width: 70%;
+            /* Or any desired fixed width, percentage, or max-width */
+            word-wrap: break-word;
+            /* Ensures long words break if they exceed the container width */
+            overflow-wrap: break-word;
+            /* Modern alternative to word-wrap */
+            white-space: normal;
+            /* Ensures default wrapping behavior */
+            padding: 10px;
+            /* Optional: Adds space around the text for better readability and selection */
+            border: 1px solid #ccc;
+            /* Optional: Visual boundary for the div */
             background: #ff6b35;
             padding: 10px;
             border-radius: 8px;
             margin-bottom: 15px;
             font-size: 0.9em;
         }
-        
+
         .loading {
             text-align: center;
             padding: 40px;
             color: #666;
         }
-        
+
         .spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #ff6b35;
@@ -317,47 +324,106 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
         }
-        
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        
+
         /* Type colors */
-        .normal { background-color: #A8A878; }
-        .fire { background-color: #F08030; }
-        .water { background-color: #6890F0; }
-        .electric { background-color: #F8D030; }
-        .grass { background-color: #78C850; }
-        .ice { background-color: #98D8D8; }
-        .fighting { background-color: #C03028; }
-        .poison { background-color: #A040A0; }
-        .ground { background-color: #E0C068; }
-        .flying { background-color: #A890F0; }
-        .psychic { background-color: #F85888; }
-        .bug { background-color: #A8B820; }
-        .rock { background-color: #B8A038; }
-        .ghost { background-color: #705898; }
-        .dragon { background-color: #7038F8; }
-        .dark { background-color: #705848; }
-        .steel { background-color: #B8B8D0; }
-        .fairy { background-color: #EE99AC; }
+        .normal {
+            background-color: #A8A878;
+        }
+
+        .fire {
+            background-color: #F08030;
+        }
+
+        .water {
+            background-color: #6890F0;
+        }
+
+        .electric {
+            background-color: #F8D030;
+        }
+
+        .grass {
+            background-color: #78C850;
+        }
+
+        .ice {
+            background-color: #98D8D8;
+        }
+
+        .fighting {
+            background-color: #C03028;
+        }
+
+        .poison {
+            background-color: #A040A0;
+        }
+
+        .ground {
+            background-color: #E0C068;
+        }
+
+        .flying {
+            background-color: #A890F0;
+        }
+
+        .psychic {
+            background-color: #F85888;
+        }
+
+        .bug {
+            background-color: #A8B820;
+        }
+
+        .rock {
+            background-color: #B8A038;
+        }
+
+        .ghost {
+            background-color: #705898;
+        }
+
+        .dragon {
+            background-color: #7038F8;
+        }
+
+        .dark {
+            background-color: #705848;
+        }
+
+        .steel {
+            background-color: #B8B8D0;
+        }
+
+        .fairy {
+            background-color: #EE99AC;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h1>Pokemon Go Stats Analyzer</h1>
             <p>Analyze Pokemon stats and find the best attackers</p>
         </div>
-        
+
         <div class="content">
             <div class="tabs">
                 <button class="tab active" onclick="switchTab('stats')">Pokemon Stats</button>
                 <button class="tab" onclick="switchTab('attackers')">Top Attackers vs Pokemon</button>
                 <button class="tab" onclick="switchTab('type-attackers')">Top Attackers by Type</button>
             </div>
-            
+
             <!-- Pokemon Stats Tab -->
             <div id="stats" class="tab-content active">
                 <div class="form-group">
@@ -367,10 +433,10 @@
                     </select>
                 </div>
                 <button class="btn" onclick="getPokemonStats()">Get Pokemon Go Stats</button>
-                
+
                 <div id="stats-results" class="results"></div>
             </div>
-            
+
             <!-- Top Attackers vs Pokemon Tab -->
             <div id="attackers" class="tab-content">
                 <div class="form-group">
@@ -379,7 +445,7 @@
                         <option value="">Loading Pokemon...</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-section">
                     <h4>Advanced Filter Options (Pokemon GO only)</h4>
                     <div class="filter-grid">
@@ -387,85 +453,99 @@
                             <h5>Legendary/Mythical Pokemon</h5>
                             <div class="radio-group">
                                 <div class="radio-option">
-                                    <input type="radio" id="legendary-all-attackers" name="legendary-filter-attackers" value="all" checked>
+                                    <input type="radio" id="legendary-all-attackers" name="legendary-filter-attackers"
+                                        value="all" checked>
                                     <label for="legendary-all-attackers">Include All</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="legendary-only-attackers" name="legendary-filter-attackers" value="only">
+                                    <input type="radio" id="legendary-only-attackers" name="legendary-filter-attackers"
+                                        value="only">
                                     <label for="legendary-only-attackers">Legendary Only</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="legendary-exclude-attackers" name="legendary-filter-attackers" value="exclude">
+                                    <input type="radio" id="legendary-exclude-attackers"
+                                        name="legendary-filter-attackers" value="exclude">
                                     <label for="legendary-exclude-attackers">Exclude Legendary</label>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="filter-item">
                             <h5>Mega Evolution Forms</h5>
                             <div class="radio-group">
                                 <div class="radio-option">
-                                    <input type="radio" id="mega-all-attackers" name="mega-filter-attackers" value="all" checked>
+                                    <input type="radio" id="mega-all-attackers" name="mega-filter-attackers" value="all"
+                                        checked>
                                     <label for="mega-all-attackers">Include All</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="mega-only-attackers" name="mega-filter-attackers" value="only">
+                                    <input type="radio" id="mega-only-attackers" name="mega-filter-attackers"
+                                        value="only">
                                     <label for="mega-only-attackers">Mega Forms Only</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="mega-exclude-attackers" name="mega-filter-attackers" value="exclude">
+                                    <input type="radio" id="mega-exclude-attackers" name="mega-filter-attackers"
+                                        value="exclude">
                                     <label for="mega-exclude-attackers">Exclude Mega Forms</label>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="filter-item">
                             <h5>Shadow Forms</h5>
                             <div class="radio-group">
                                 <div class="radio-option">
-                                    <input type="radio" id="shadow-all-attackers" name="shadow-filter-attackers" value="all" checked>
+                                    <input type="radio" id="shadow-all-attackers" name="shadow-filter-attackers"
+                                        value="all" checked>
                                     <label for="shadow-all-attackers">Include All</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="shadow-only-attackers" name="shadow-filter-attackers" value="only">
+                                    <input type="radio" id="shadow-only-attackers" name="shadow-filter-attackers"
+                                        value="only">
                                     <label for="shadow-only-attackers">Shadow Forms Only</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="shadow-exclude-attackers" name="shadow-filter-attackers" value="exclude">
+                                    <input type="radio" id="shadow-exclude-attackers" name="shadow-filter-attackers"
+                                        value="exclude">
                                     <label for="shadow-exclude-attackers">Exclude Shadow Forms</label>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="filter-item">
                             <h5>Max Pokemon</h5>
                             <div class="radio-group">
                                 <div class="radio-option">
-                                    <input type="radio" id="max-all-attackers" name="max-filter-attackers" value="all" checked>
+                                    <input type="radio" id="max-all-attackers" name="max-filter-attackers" value="all"
+                                        checked>
                                     <label for="max-all-attackers">Include All</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="max-only-attackers" name="max-filter-attackers" value="only">
+                                    <input type="radio" id="max-only-attackers" name="max-filter-attackers"
+                                        value="only">
                                     <label for="max-only-attackers">Max Only</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="max-exclude-attackers" name="max-filter-attackers" value="exclude">
+                                    <input type="radio" id="max-exclude-attackers" name="max-filter-attackers"
+                                        value="exclude">
                                     <label for="max-exclude-attackers">Exclude Max</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-notes">
-                        <strong>Note:</strong> Only Pokemon available in Pokemon GO are included. Form bonuses: Mega (+30% ATK), Shadow (+20% ATK), Max (+10% ATK). 
-                        "Include All" shows all Pokemon regardless of the filter. "Only" shows only Pokemon with that characteristic. "Exclude" removes Pokemon with that characteristic.
+                        <strong>Note:</strong> Only Pokemon available in Pokemon GO are included. Form bonuses: Mega
+                        (+30% ATK), Shadow (+20% ATK), Max (+10% ATK).
+                        "Include All" shows all Pokemon regardless of the filter. "Only" shows only Pokemon with that
+                        characteristic. "Exclude" removes Pokemon with that characteristic.
                     </div>
                 </div>
-                
+
                 <button class="btn" onclick="getTopAttackers()">Find Best Attackers</button>
-                
+
                 <div id="attackers-results" class="results"></div>
             </div>
-            
+
             <!-- Top Attackers by Type Tab -->
             <div id="type-attackers" class="tab-content">
                 <div class="form-group">
@@ -474,7 +554,7 @@
                         <option value="">Loading Types...</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-section">
                     <h4>Advanced Filter Options (Pokemon GO only)</h4>
                     <div class="filter-grid">
@@ -482,20 +562,23 @@
                             <h5>Legendary/Mythical Pokemon</h5>
                             <div class="radio-group">
                                 <div class="radio-option">
-                                    <input type="radio" id="legendary-all-type" name="legendary-filter-type" value="all" checked>
+                                    <input type="radio" id="legendary-all-type" name="legendary-filter-type" value="all"
+                                        checked>
                                     <label for="legendary-all-type">Include All</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="legendary-only-type" name="legendary-filter-type" value="only">
+                                    <input type="radio" id="legendary-only-type" name="legendary-filter-type"
+                                        value="only">
                                     <label for="legendary-only-type">Legendary Only</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="legendary-exclude-type" name="legendary-filter-type" value="exclude">
+                                    <input type="radio" id="legendary-exclude-type" name="legendary-filter-type"
+                                        value="exclude">
                                     <label for="legendary-exclude-type">Exclude Legendary</label>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="filter-item">
                             <h5>Mega Evolution Forms</h5>
                             <div class="radio-group">
@@ -513,12 +596,13 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="filter-item">
                             <h5>Shadow Forms</h5>
                             <div class="radio-group">
                                 <div class="radio-option">
-                                    <input type="radio" id="shadow-all-type" name="shadow-filter-type" value="all" checked>
+                                    <input type="radio" id="shadow-all-type" name="shadow-filter-type" value="all"
+                                        checked>
                                     <label for="shadow-all-type">Include All</label>
                                 </div>
                                 <div class="radio-option">
@@ -526,12 +610,13 @@
                                     <label for="shadow-only-type">Shadow Forms Only</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="shadow-exclude-type" name="shadow-filter-type" value="exclude">
+                                    <input type="radio" id="shadow-exclude-type" name="shadow-filter-type"
+                                        value="exclude">
                                     <label for="shadow-exclude-type">Exclude Shadow Forms</label>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="filter-item">
                             <h5>Max Pokemon</h5>
                             <div class="radio-group">
@@ -551,43 +636,45 @@
                         </div>
                     </div>
                     <div class="form-notes">
-                        <strong>Note:</strong> Only Pokemon available in Pokemon GO are included. Form bonuses: Mega (+30% ATK), Shadow (+20% ATK), Max (+10% ATK).
-                        "Include All" shows all Pokemon regardless of the filter. "Only" shows only Pokemon with that characteristic. "Exclude" removes Pokemon with that characteristic.
+                        <strong>Note:</strong> Only Pokemon available in Pokemon GO are included. Form bonuses: Mega
+                        (+30% ATK), Shadow (+20% ATK), Max (+10% ATK).
+                        "Include All" shows all Pokemon regardless of the filter. "Only" shows only Pokemon with that
+                        characteristic. "Exclude" removes Pokemon with that characteristic.
                     </div>
                 </div>
-                
+
                 <button class="btn" onclick="getTopAttackersByType()">Find Top Attackers</button>
-                
+
                 <div id="type-attackers-results" class="results"></div>
             </div>
         </div>
     </div>
-    
+
     <script>
         // Load initial data
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadPokemonList();
             loadTypes();
         });
-        
+
         function switchTab(tabName) {
             // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            
+
             // Remove active class from all tabs
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             // Show selected tab content
             document.getElementById(tabName).classList.add('active');
-            
+
             // Add active class to clicked tab
             event.target.classList.add('active');
         }
-        
+
         function getFilterValues(suffix) {
             return {
                 legendary_filter: document.querySelector(`input[name="legendary-filter-${suffix}"]:checked`).value,
@@ -596,21 +683,21 @@
                 max_filter: document.querySelector(`input[name="max-filter-${suffix}"]:checked`).value
             };
         }
-        
+
         async function loadPokemonList() {
             try {
                 const response = await fetch('/api/pokemon-list');
                 const pokemon = await response.json();
-                
+
                 const pokemonSelect = document.getElementById('pokemon-select');
                 const defenderSelect = document.getElementById('defender-select');
-                
+
                 pokemonSelect.innerHTML = '<option value="">Choose a Pokemon</option>';
                 defenderSelect.innerHTML = '<option value="">Choose a Pokemon</option>';
-                
+
                 pokemon.forEach(p => {
-                    const option1 = new Option(p.name, p.id+" - "+p.form);
-                    const option2 = new Option(p.name, p.id+" - "+p.form);
+                    const option1 = new Option(p.name, p.id + " - " + p.form);
+                    const option2 = new Option(p.name, p.id + " - " + p.form);
                     pokemonSelect.add(option1);
                     defenderSelect.add(option2);
                 });
@@ -618,15 +705,15 @@
                 console.error('Error loading Pokemon list:', error);
             }
         }
-        
+
         async function loadTypes() {
             try {
                 const response = await fetch('/api/types');
                 const types = await response.json();
-                
+
                 const typeSelect = document.getElementById('type-select');
                 typeSelect.innerHTML = '<option value="">Choose a Type</option>';
-                
+
                 types.forEach(type => {
                     const option = new Option(type.name, type.value);
                     typeSelect.add(option);
@@ -635,33 +722,33 @@
                 console.error('Error loading types:', error);
             }
         }
-        
+
         async function getPokemonStats() {
             const pokemonId = document.getElementById('pokemon-select').value;
             if (!pokemonId) {
                 alert('Please select a Pokemon');
                 return;
             }
-            
+
             const resultsDiv = document.getElementById('stats-results');
             resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Loading Pokemon stats...</div>';
             resultsDiv.classList.add('show');
-            
+
             const pokemonId_val = pokemonId.split(" - ")[0].trim();
             const pokemonId_form = pokemonId.split(" - ")[1].trim();
             try {
                 const response = await fetch(`/api/pokemon/${pokemonId_val}/${pokemonId_form}`);
                 const data = await response.json();
-                
+
                 if (data.error) {
                     resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
                     return;
                 }
-                
-                const typeBadges = data.types.map(type => 
+
+                const typeBadges = data.types.map(type =>
                     `<span class="type-badge ${type}">${type.toUpperCase()}</span>`
                 ).join('');
-                
+
                 resultsDiv.innerHTML = `
                     <div class="pokemon-card">
                         <div class="pokemon-name">${data.name} (#${data.id})</div>
@@ -716,21 +803,21 @@
                 resultsDiv.innerHTML = `<p>Error loading Pokemon data: ${error.message}</p>`;
             }
         }
-        
+
         async function getTopAttackers() {
             const defenderId = document.getElementById('defender-select').value;
             if (!defenderId) {
                 alert('Please select a defender Pokemon');
                 return;
             }
-            
+
             // Get filter values using the helper function
             const filters = getFilterValues('attackers');
-            
+
             const resultsDiv = document.getElementById('attackers-results');
             resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Finding best attackers...</div>';
             resultsDiv.classList.add('show');
-            
+
             const defenderId_val = defenderId.split(" - ")[0].trim();
             const defenderId_form = defenderId.split(" - ")[1].trim();
             try {
@@ -738,23 +825,23 @@
                 const queryParams = new URLSearchParams(filters).toString();
                 const response = await fetch(`/api/top-attackers/${defenderId_val}/${defenderId_form}?${queryParams}`);
                 const data = await response.json();
-                
+
                 if (data.error) {
                     resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
                     return;
                 }
-                
+
                 const attackersList = data.top_attackers.map((attacker, index) => {
-                    const typeBadges = attacker.types.map(type => 
+                    const typeBadges = attacker.types.map(type =>
                         `<span class="type-badge ${type}">${type}</span>`
                     ).join('');
-                    
-                    const formNotes = attacker.form !== "normal" ? 
+
+                    const formNotes = attacker.form !== "normal" ?
                         `<div style="font-size: 0.8em; color: #ff6b35; font-weight: bold;">${attacker.form}</div>` : '';
-                    
-                    const legendaryBadge = attacker.is_legendary ? 
+
+                    const legendaryBadge = attacker.is_legendary ?
                         `<span style="background: #ffd700; color: #333; padding: 2px 6px; border-radius: 10px; font-size: 0.7em; font-weight: bold;">★ LEGENDARY</span>` : '';
-                    
+
                     return `
                         <div class="attacker-card">
                             <div class="attacker-info">
@@ -770,7 +857,7 @@
                         </div>
                     `;
                 }).join('');
-                
+
                 const getFilterLabel = (filter, value) => {
                     const labels = {
                         'all': 'Include All',
@@ -779,7 +866,7 @@
                     };
                     return labels[value] || value;
                 };
-                
+
                 const filterInfo = `
                     <div style="background: #e8f4fd; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9em;">
                         <strong>Filters Applied:</strong><br>
@@ -791,23 +878,54 @@
                     </div>
                 `;
 
-                const pogoSearchString1 = data.top_attackers.map(attacker => attacker.id).join(',');
+                const pogoSearchString1 = data.top_attackers.map(attacker => attacker.id).filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                }).sort((a, b) => a - b).join(',');
                 const pogoSearchString2 = data.top_attackers.map(attacker => {
-                    if (attacker.form !== "normal") {
+                    if (attacker.form === "mega") {
                         return attacker.form
                     }
                     return attacker.id
                 }).filter((value, index, self) => {
                     return self.indexOf(value) === index;
-                }).join(',');
-                
+                }).sort((a, b) => a - b).join(',');
+                const pogoSearchString3 = data.top_attackers.map(attacker => {
+                    if (attacker.form === "shadow") {
+                        return attacker.form
+                    }
+                    return attacker.id
+                }).filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                }).sort((a, b) => a - b).join(',');
+                const pogoSearchString4 = data.top_attackers.map(attacker => {
+                    if (attacker.form === "max") {
+                        return attacker.form
+                    }
+                    return attacker.id
+                }).filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                }).sort((a, b) => a - b).join(',');
+
+                const combinedSearchString = []
+                combinedSearchString.push(pogoSearchString1)
+
+                if (pogoSearchString1 !== pogoSearchString2) {
+                    combinedSearchString.push(pogoSearchString2)
+                }
+                if (pogoSearchString1 !== pogoSearchString3) {
+                    combinedSearchString.push(pogoSearchString3)
+                }
+                if (pogoSearchString1 !== pogoSearchString4) {
+                    combinedSearchString.push(pogoSearchString4)
+                }
+
                 const pogoSearchStringDiv = `
                     <div class="pogo-search">
                         <strong>Pokemon Go Filter:</strong><br>
-                        ${pogoSearchString1}&${pogoSearchString2}
+                        ${combinedSearchString.join('&')}
                     </div>
                 `;
-                
+
                 resultsDiv.innerHTML = `
                     <h3>Top 25 Attackers vs ${data.defender}</h3>
                     ${filterInfo}
@@ -820,43 +938,43 @@
                 resultsDiv.innerHTML = `<p>Error loading attacker data: ${error.message}</p>`;
             }
         }
-        
+
         async function getTopAttackersByType() {
             const typeName = document.getElementById('type-select').value;
             if (!typeName) {
                 alert('Please select a type');
                 return;
             }
-            
+
             // Get filter values using the helper function
             const filters = getFilterValues('type');
-            
+
             const resultsDiv = document.getElementById('type-attackers-results');
             resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Finding top attackers...</div>';
             resultsDiv.classList.add('show');
-            
+
             try {
                 // Build query string
                 const queryParams = new URLSearchParams(filters).toString();
                 const response = await fetch(`/api/top-attackers-by-type/${typeName}?${queryParams}`);
                 const data = await response.json();
-                
+
                 if (data.error) {
                     resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
                     return;
                 }
-                
+
                 const attackersList = data.top_attackers.map((attacker, index) => {
-                    const typeBadges = attacker.types.map(type => 
+                    const typeBadges = attacker.types.map(type =>
                         `<span class="type-badge ${type}">${type}</span>`
                     ).join('');
-                    
-                    const formNotes = attacker.form !== "normal" ? 
+
+                    const formNotes = attacker.form !== "normal" ?
                         `<div style="font-size: 0.8em; color: #ff6b35; font-weight: bold;">${attacker.form}</div>` : '';
-                    
-                    const legendaryBadge = attacker.is_legendary ? 
+
+                    const legendaryBadge = attacker.is_legendary ?
                         `<span style="background: #ffd700; color: #333; padding: 2px 6px; border-radius: 10px; font-size: 0.7em; font-weight: bold;">★ LEGENDARY</span>` : '';
-                    
+
                     return `
                         <div class="attacker-card">
                             <div class="attacker-info">
@@ -870,7 +988,7 @@
                         </div>
                     `;
                 }).join('');
-                
+
                 const getFilterLabel = (filter, value) => {
                     const labels = {
                         'all': 'Include All',
@@ -879,7 +997,7 @@
                     };
                     return labels[value] || value;
                 };
-                
+
                 const filterInfo = `
                     <div style="background: #e8f4fd; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9em;">
                         <strong>Filters Applied:</strong><br>
@@ -890,23 +1008,54 @@
                     </div>
                 `;
 
-                const pogoSearchString1 = data.top_attackers.map(attacker => attacker.id).join(',');
+                const pogoSearchString1 = data.top_attackers.map(attacker => attacker.id).filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                }).sort((a, b) => a - b).join(',');
                 const pogoSearchString2 = data.top_attackers.map(attacker => {
-                    if (attacker.form !== "normal") {
+                    if (attacker.form === "mega") {
                         return attacker.form
                     }
                     return attacker.id
                 }).filter((value, index, self) => {
                     return self.indexOf(value) === index;
-                }).join(',');
-                
+                }).sort((a, b) => a - b).join(',');
+                const pogoSearchString3 = data.top_attackers.map(attacker => {
+                    if (attacker.form === "shadow") {
+                        return attacker.form
+                    }
+                    return attacker.id
+                }).filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                }).sort((a, b) => a - b).join(',');
+                const pogoSearchString4 = data.top_attackers.map(attacker => {
+                    if (attacker.form === "max") {
+                        return attacker.form
+                    }
+                    return attacker.id
+                }).filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                }).sort((a, b) => a - b).join(',');
+
+                const combinedSearchString = []
+                combinedSearchString.push(pogoSearchString1)
+
+                if (pogoSearchString1 !== pogoSearchString2) {
+                    combinedSearchString.push(pogoSearchString2)
+                }
+                if (pogoSearchString1 !== pogoSearchString3) {
+                    combinedSearchString.push(pogoSearchString3)
+                }
+                if (pogoSearchString1 !== pogoSearchString4) {
+                    combinedSearchString.push(pogoSearchString4)
+                }
+
                 const pogoSearchStringDiv = `
                     <div class="pogo-search">
                         <strong>Pokemon Go Filter:</strong><br>
-                        ${pogoSearchString1}&${pogoSearchString2}
+                        ${combinedSearchString.join('&')}
                     </div>
                 `;
-                
+
                 resultsDiv.innerHTML = `
                     <h3>Top 25 ${data.type} Type Attackers</h3>
                     ${filterInfo}
@@ -921,4 +1070,5 @@
         }
     </script>
 </body>
+
 </html>
