@@ -211,3 +211,5 @@ __marimo__/
 
 # OS X
 .DS_Store
+# Agent skill configuration (local to this machine)
+docs/agents/
